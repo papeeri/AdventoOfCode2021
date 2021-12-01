@@ -8,6 +8,7 @@ function part1(input) {
       if (parseInt(input[x]) + parseInt(input[y]) === 2020) {
         console.log(input[x]);
         console.log(input[y]);
+
         console.log(input[x] * input[y]);
         return;
       }
