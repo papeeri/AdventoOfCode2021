@@ -28,20 +28,15 @@ function part2(input) {
 
   for (let x = 2; x < input.length; x++) {
     if (previousDepthWindow === null) {
-      previousDepthWindow =
-        parseInt(input[x]) + parseInt(input[x - 1]) + parseInt(input[x - 2]);
+      previousDepthWindow = parseInt(input[x]) + parseInt(input[x - 1]) + parseInt(input[x - 2]);
       continue;
     }
 
-    if (
-      previousDepthWindow <
-      parseInt(input[x]) + parseInt(input[x - 1]) + parseInt(input[x - 2])
-    ) {
+    if (previousDepthWindow < parseInt(input[x]) + parseInt(input[x - 1]) + parseInt(input[x - 2])) {
       numberOfIncreases++;
     }
 
-    previousDepthWindow =
-      parseInt(input[x]) + parseInt(input[x - 1]) + parseInt(input[x - 2]);
+    previousDepthWindow = parseInt(input[x]) + parseInt(input[x - 1]) + parseInt(input[x - 2]);
   }
 
   console.log(numberOfIncreases);
