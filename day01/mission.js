@@ -22,4 +22,29 @@ function part1(input) {
   console.log(numberOfIncreases);
 }
 
-part1(input);
+function part2(input) {
+  let numberOfIncreases = 0;
+  let previousDepthWindow = null;
+
+  for (let x = 2; x < input.length; x++) {
+    if (previousDepthWindow === null) {
+      previousDepthWindow =
+        parseInt(input[x]) + parseInt(input[x - 1]) + parseInt(input[x - 2]);
+      continue;
+    }
+
+    if (
+      previousDepthWindow <
+      parseInt(input[x]) + parseInt(input[x - 1]) + parseInt(input[x - 2])
+    ) {
+      numberOfIncreases++;
+    }
+
+    previousDepthWindow =
+      parseInt(input[x]) + parseInt(input[x - 1]) + parseInt(input[x - 2]);
+  }
+
+  console.log(numberOfIncreases);
+}
+
+part2(input);
