@@ -11,26 +11,26 @@ function getUnit(row) {
 }
 
 function part1(input) {
-    let x = 0;
-    let y = 0;
+    let forward = 0;
+    let depth = 0;
 
     for (let i = 0; i < input.length; i++) {
         if (getDirection(input[i]) === "forward") {
-            x = x + getUnit(input[i]);
+            forward = forward + getUnit(input[i]);
         }
 
         if (getDirection(input[i]) === "up") {
-            y = y - getUnit(input[i]);
+            depth = depth - getUnit(input[i]);
         }
 
         if (getDirection(input[i]) === "down") {
-            y = y + getUnit(input[i]);
+            depth = depth + getUnit(input[i]);
         }
     }
 
-    console.log("X:", x);
-    console.log("Y:", y);
-    console.log("X * Y:", x * y);
+    console.log("Forward:", forward);
+    console.log("Depth:", depth);
+    console.log("Forward * Y:", forward * depth);
 }
 
 part1(input);
