@@ -11,12 +11,12 @@ function getUnit(row) {
 }
 
 function part1(input) {
-    let forward = 0;
+    let horizontalPosition = 0;
     let depth = 0;
 
     for (let i = 0; i < input.length; i++) {
         if (getDirection(input[i]) === "forward") {
-            forward = forward + getUnit(input[i]);
+            horizontalPosition = horizontalPosition + getUnit(input[i]);
         }
 
         if (getDirection(input[i]) === "up") {
@@ -28,9 +28,9 @@ function part1(input) {
         }
     }
 
-    console.log("Forward:", forward);
+    console.log("Horizontal position:", horizontalPosition);
     console.log("Depth:", depth);
-    console.log("Forward * Y:", forward * depth);
+    console.log("Horizontal position * Depth:", horizontalPosition * depth);
 }
 
 part1(input);
