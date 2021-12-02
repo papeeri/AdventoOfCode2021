@@ -33,4 +33,30 @@ function part1(input) {
     console.log("Horizontal position * Depth:", horizontalPosition * depth);
 }
 
-part1(input);
+function part2(input) {
+    let horizontalPosition = 0;
+    let depth = 0;
+    let aim = 0;
+
+    for (let i = 0; i < input.length; i++) {
+        if (getDirection(input[i]) === "forward") {
+            horizontalPosition = horizontalPosition + getUnit(input[i]);
+            depth = depth + aim * getUnit(input[i]);
+        }
+
+        if (getDirection(input[i]) === "up") {
+            aim = aim - getUnit(input[i]);
+        }
+
+        if (getDirection(input[i]) === "down") {
+            aim = aim + getUnit(input[i]);
+        }
+    }
+
+    console.log("Horizontal position:", horizontalPosition);
+    console.log("Depth:", depth);
+    console.log("Aim:", aim);
+    console.log("Horizontal position * Depth:", horizontalPosition * depth);
+}
+
+part2(input);
