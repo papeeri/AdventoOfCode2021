@@ -41,4 +41,55 @@ function part1(input) {
     console.log('Power consumption:', gammaRate * epsilonRate);
 }
 
-part1(input);
+function part2(input) {
+    let oxygenGeneratorRating = getRating(input, 'most common');
+    let CO2ScrubberRating = getRating(input, 'least common');
+
+    console.log('oxygenGeneratorRating:', oxygenGeneratorRating);
+    console.log('CO2ScrubberRating:', CO2ScrubberRating);
+
+    console.log('Life support rating:', oxygenGeneratorRating * CO2ScrubberRating);
+}
+
+function getRating(input, bitCriteria) {
+    let inputPart = input;
+
+    while (inputPart.length > 1) {
+        for (let position = 0; position < input[0].split('').length; position++) {
+            let ones = [];
+            let zeros = [];
+
+            for (let i = 0; i < inputPart.length; i++) {
+                if (inputPart[i].split('')[position] === '1') {
+                    ones.push(inputPart[i]);
+                }
+
+                if (inputPart[i].split('')[position] === '0') {
+                    zeros.push(inputPart[i]);
+                }
+            }
+
+            if (bitCriteria === 'most common') {
+                if (ones.length >= zeros.length) {
+                    inputPart = ones;
+                } else {
+                    inputPart = zeros;
+                }
+            } else {
+                if (zeros.length <= ones.length) {
+                    inputPart = zeros;
+                } else {
+                    inputPart = ones;
+                }
+            }
+
+            if (inputPart.length === 1) {
+                return parseInt(inputPart[0], 2);
+            }
+        }
+    }
+
+    return parseInt(inputPart[0], 2);
+}
+
+part2(input);
