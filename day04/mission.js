@@ -1,44 +1,104 @@
 const fs = require('fs');
+const internal = require('stream');
 
 let input = fs.readFileSync('./day04/input.txt', 'utf8').split(/\r?\n/);
 
 function part1(input) {
-    let mostCommon = '';
-    let leastCommon = '';
+    let bingoSequence = input[0].split(',');
+    let boards = getBoards(input);
 
-    for (let position = 0; position < 12; position++) {
-        let ones = 0;
-        let zeros = 0;
+    let bingoSequencePart = [];
+    let bingoBoard = [];
+    let winningNumber;
 
-        for (let i = 0; i < input.length; i++) {
-            if (input[i].split('')[position] === '1') {
-                ones++;
-            }
+    for (let i = 0; i < bingoSequence.length; i++) {
+        bingoSequencePart.push(bingoSequence[i]);
 
-            if (input[i].split('')[position] === '0') {
-                zeros++;
-            }
-        }
-
-        if (ones > zeros) {
-            mostCommon += '1';
-            leastCommon += '0';
-        } else {
-            mostCommon += '0';
-            leastCommon += '1';
+        bingoBoard = getBingoBoard(boards, bingoSequencePart);
+        if (bingoBoard.length !== 0) {
+            winningNumber = bingoSequence[i];
+            break;
         }
     }
 
-    console.log('mostCommon:', mostCommon);
-    console.log('leastCommon:', leastCommon);
+    let sum = getSumOfUnmarkedNumbers(bingoBoard, bingoSequencePart);
+    console.log('bingoBoard:', bingoBoard);
+    console.log('winningNumber:', winningNumber);
+    console.log('sumOfUnmarkedNumbers:', sum);
+    console.log('sumOfUnmarkedNumbers * winningNumber:', sum * winningNumber);
+}
 
-    let gammaRate = parseInt(mostCommon, 2);
-    let epsilonRate = parseInt(leastCommon, 2);
+function getSumOfUnmarkedNumbers(board, bingoSequencePart) {
+    let sum = 0;
 
-    console.log('gammaRate:', gammaRate);
-    console.log('epsilonRate:', epsilonRate);
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board.length; col++) {
+            if (!bingoSequencePart.includes(board[row][col])) {
+                sum += parseInt(board[row][col]);
+            }
+        }
+    }
 
-    console.log('Power consumption:', gammaRate * epsilonRate);
+    return sum;
+}
+
+function getBingoBoard(boards, bingoSequencePart) {
+    for (let boardNumber = 0; boardNumber < boards.length; boardNumber++) {
+        if (boardHasBingo(boards[boardNumber], bingoSequencePart)) {
+            return boards[boardNumber];
+        }
+    }
+
+    return [];
+}
+
+function boardHasBingo(board, bingoSequencePart) {
+    for (let i = 0; i < board.length; i++) {
+        if (sequenceHasBingo(board[i], bingoSequencePart)) {
+            return true;
+        }
+
+        let columnSequence = [];
+        for (let row = 0; row < board.length; row++) {
+            columnSequence.push(board[row][i]);
+        }
+
+        if (sequenceHasBingo(columnSequence, bingoSequencePart)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function sequenceHasBingo(sequence, bingoSequencePart) {
+    for (let i = 0; i < sequence.length; i++) {
+        if (!bingoSequencePart.includes(sequence[i])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function getBoards(input) {
+    let boards = [];
+    let board = [];
+    let row = 0;
+
+    for (let i = 2; i < input.length; i++) {
+        if (input[i] === '') {
+            boards.push(board);
+            board = [,];
+            row = 0;
+            continue;
+        }
+
+        board[row] = input[i].trim().replace(/  /g, ' ').split(' ');
+        row++;
+    }
+
+    return boards;
 }
 
 part1(input);
