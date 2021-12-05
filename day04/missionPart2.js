@@ -7,37 +7,6 @@ function part2(input) {
     let bingoSequence = input[0].split(',');
     let boards = getBoards(input);
 
-    // let bingoSequencePart = [];
-    // let bingoSequencePartOnLastWin = [];
-    // let lastBingoBoard = [];
-    // let winningNumber;
-
-    // for (let i = 0; i < bingoSequence.length; i++) {
-    //     bingoSequencePart.push(bingoSequence[i]);
-
-    //     let bingoBoardNumber = getBingoBoardIndex(boards, bingoSequencePart);
-    //     console.log('bingoBoardNumber:', bingoBoardNumber);
-
-    //     if (bingoBoardNumber !== -1) {
-    //         // console.log(boards.length);
-    //         // if (boards.length === 31) {
-    //         //     console.log('Last winning board!');
-    //         // }
-
-    //         lastBingoBoard = boards[bingoBoardNumber];
-    //         bingoSequencePartOnLastWin = bingoSequencePart;
-    //         winningNumber = bingoSequence[i];
-
-    //         boards.splice(bingoBoardNumber, 1);
-    //     }
-    // }
-
-    // let sum = getSumOfUnmarkedNumbers(lastBingoBoard, bingoSequencePartOnLastWin);
-    // console.log('lastBingoBoard:', lastBingoBoard);
-    // console.log('winningNumber:', winningNumber);
-    // console.log('sumOfUnmarkedNumbers:', sum);
-    // console.log('sumOfUnmarkedNumbers * winningNumber:', sum * winningNumber);
-
     let bingoSequencePart = [];
     let lastWinningBingoSequencePart = [];
     let lastBingoBoard = [];
