@@ -91,31 +91,6 @@ function getPoints(xy) {
     return points;
 }
 
-function getTravel(i1, i2) {
-    let travel = [];
-    let bigger;
-    let smaller;
-
-    if (i1 === i2) {
-        travel.push(i1);
-        return travel;
-    }
-
-    if (i1 > i2) {
-        bigger = i1;
-        smaller = i2;
-    } else {
-        bigger = i2;
-        smaller = i1;
-    }
-
-    for (let i = smaller; i <= bigger; i++) {
-        travel.push(i);
-    }
-
-    return travel;
-}
-
 function createEmptyMatrix(size) {
     let matrix = [];
 
@@ -153,18 +128,6 @@ function getLargestNumber(hv) {
     }
 
     return largestNumber;
-}
-
-function removeDiagonal(parsedInput) {
-    let hv = [];
-
-    for (let i = 0; i < parsedInput.length; i++) {
-        if (parsedInput[i].x1 === parsedInput[i].x2 || parsedInput[i].y1 === parsedInput[i].y2) {
-            hv.push(parsedInput[i]);
-        }
-    }
-
-    return hv;
 }
 
 function parseInput(input) {
