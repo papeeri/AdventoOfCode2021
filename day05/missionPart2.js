@@ -1,17 +1,13 @@
 const fs = require('fs');
-const internal = require('stream');
 
 let input = fs.readFileSync('./day05/input.txt', 'utf8').split(/\r?\n/);
 
-function part1(input) {
+function part2(input) {
     let parsedInput = parseInput(input);
-    let hv = removeDiagonal(parsedInput);
-
-    let size = getLargestNumber(hv);
-
+    let size = getLargestNumber(parsedInput);
     let matrix = createEmptyMatrix(size);
 
-    fillMatrix(matrix, hv);
+    fillMatrix(matrix, parsedInput);
 
     let overlap = 0;
     for (let x = 0; x <= size; x++) {
@@ -22,26 +18,77 @@ function part1(input) {
         }
     }
 
+    // printMatrix(matrix);
     console.log(overlap);
 }
 
-function fillMatrix(matrix, hv) {
-    for (let i = 0; i < hv.length; i++) {
-        let xTravel = getTravel(hv[i].x1, hv[i].x2);
-        let yTravel = getTravel(hv[i].y1, hv[i].y2);
-
-        if (xTravel.length > 1) {
-            for (let i = xTravel[0]; i <= xTravel[xTravel.length - 1]; i++) {
-                matrix[yTravel[0]][i]++;
+function printMatrix(matrix) {
+    for (let x = 0; x < matrix.length; x++) {
+        let row = '';
+        for (let y = 0; y < matrix.length; y++) {
+            if (matrix[x][y] === 0) {
+                row += '.';
+            } else {
+                row += matrix[x][y];
             }
         }
 
-        if (yTravel.length > 1) {
-            for (let i = yTravel[0]; i <= yTravel[yTravel.length - 1]; i++) {
-                matrix[i][xTravel[0]]++;
-            }
+        console.log(row);
+    }
+
+    console.log('');
+}
+
+function fillMatrix(matrix, input) {
+    for (let i = 0; i < input.length; i++) {
+        let points = getPoints(input[i]);
+
+        for (let idx = 0; idx < points.length; idx++) {
+            matrix[points[idx].y][points[idx].x]++;
+        }
+
+        // printMatrix(matrix);
+    }
+}
+
+function getRange(start, end) {
+    let direction = Math.sign(end - start);
+    let points = [];
+
+    for (let x = start; x !== end; x += direction) {
+        points.push(x);
+    }
+
+    points.push(end);
+
+    return points;
+}
+
+function getPoints(xy) {
+    let points = [];
+    let xPoints = getRange(xy.x1, xy.x2);
+    let yPoints = getRange(xy.y1, xy.y2);
+
+    if (xPoints.length === yPoints.length) {
+        for (let i = 0; i < xPoints.length; i++) {
+            points.push({ x: xPoints[i], y: yPoints[i] });
+        }
+        return points;
+    }
+
+    if (xPoints.length > 1) {
+        for (let i = 0; i < xPoints.length; i++) {
+            points.push({ x: xPoints[i], y: yPoints[0] });
         }
     }
+
+    if (yPoints.length > 1) {
+        for (let i = 0; i < yPoints.length; i++) {
+            points.push({ x: xPoints[0], y: yPoints[i] });
+        }
+    }
+
+    return points;
 }
 
 function getTravel(i1, i2) {
@@ -134,4 +181,4 @@ function parseInput(input) {
     return parsed;
 }
 
-part1(input);
+part2(input);
