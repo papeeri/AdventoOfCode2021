@@ -1,24 +1,32 @@
 const fs = require('fs');
 const internal = require('stream');
 
-let input = fs.readFileSync('./day05/inputPart.txt', 'utf8').split(/\r?\n/);
+let input = fs.readFileSync('./day05/input.txt', 'utf8').split(/\r?\n/);
 
 function part1(input) {
     let parsedInput = parseInput(input);
     let hv = removeDiagonal(parsedInput);
 
-    let largestNumber = getLargestNumber(hv);
+    let size = getLargestNumber(hv);
 
-    let matrix = createEmptyMatrix(largestNumber);
+    let matrix = createEmptyMatrix(size);
 
     fillMatrix(matrix, hv);
 
-    console.log(input);
+    let overlap = 0;
+    for (let x = 0; x <= size; x++) {
+        for (let y = 0; y <= size; y++) {
+            if (matrix[y][x] > 1) {
+                overlap++;
+            }
+        }
+    }
+
+    console.log(overlap);
 }
 
 function fillMatrix(matrix, hv) {
     for (let i = 0; i < hv.length; i++) {
-        console.log(hv[i]);
         let xTravel = getTravel(hv[i].x1, hv[i].x2);
         let yTravel = getTravel(hv[i].y1, hv[i].y2);
 
