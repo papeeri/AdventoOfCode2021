@@ -8,6 +8,9 @@ function parser(inputData) {
 
 function mission() {
     let input = getInputData(_inputPath)(parser);
+
+    console.log(input);
+    console.log("End");
 }
 
 mission();
