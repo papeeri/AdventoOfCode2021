@@ -1,4 +1,4 @@
-import { getInputData, sum } from '../utils.js';
+import { getInputData } from '../lib/utils.js';
 
 const _inputPath = './day09/input.txt';
 
