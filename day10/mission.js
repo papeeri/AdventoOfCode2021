@@ -1,6 +1,6 @@
-import { getInputData } from '../lib/utils.js';
+import { getInputData } from "../lib/utils.js";
 
-const _inputPath = './day10/input.txt';
+const _inputPath = "./day10/input.txt";
 
 function parser(inputData) {
     return inputData.split(/\r?\n/);
@@ -14,44 +14,44 @@ function mission() {
         ["]", 57],
         ["}", 1197],
         [">", 25137],
-    ])
+    ]);
 
     const closingCharMap = new Map([
         ["(", ")"],
         ["[", "]"],
         ["{", "}"],
         ["<", ">"],
-    ])
-     
+    ]);
+
     let found = {
-       ")": 0,
-       "]": 0,
-       "}": 0,
-       ">": 0,
-    }
+        ")": 0,
+        "]": 0,
+        "}": 0,
+        ">": 0,
+    };
 
     for (let inputRow of input) {
-        let stack = []
-        let inputRowArray = inputRow.split("")
+        let stack = [];
+        let inputRowArray = inputRow.split("");
 
         for (let chr of inputRowArray) {
-            if (chr === "(" || chr === "[" || chr === "{" || chr === "<") {
-                stack.push(closingCharMap.get(chr))
+            if (chr === "(" || chr === "[" || chr === "{" || chr === "<") {
+                stack.push(closingCharMap.get(chr));
             } else {
-                let element = stack.pop()
+                let element = stack.pop();
                 if (element !== chr) {
-                    found[chr]++
+                    found[chr]++;
                 }
             }
         }
     }
 
-    let sum = 0
-    Object.keys(found).map(key => {
-        sum+=(found[key] * points.get(key))
-    })
+    let sum = 0;
+    Object.keys(found).map((key) => {
+        sum += found[key] * points.get(key);
+    });
 
-    console.log("Score:", sum )
+    console.log("Score:", sum);
 }
 
 mission();
