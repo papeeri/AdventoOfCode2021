@@ -1,7 +1,13 @@
-const fs = require('fs');
+import { getInputData } from '../lib/utils.js';
 
-let input = fs.readFileSync('./dayDAYNUMBER/input.txt', 'utf8').split(/\r?\n/);
+const _inputPath = './dayDAYNUMBER/input.txt';
 
-function part1(input) {}
+function parser(inputData) {
+    return inputData.split(/\r?\n/);
+}
 
-part1(input);
+function mission() {
+    let input = getInputData(_inputPath)(parser);
+}
+
+mission();
