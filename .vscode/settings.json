@@ -23,5 +23,7 @@
         {
             "mode": "auto"
         }
-    ]
+    ],
+    "prettier.printWidth": 140,
+    "prettier.tabWidth": 4
 }
