@@ -49,14 +49,6 @@ function removeCorruptedDataRows(input) {
     return incompleteRows;
 }
 
-function getCompletionArray(stack) {
-    let completionArray = [];
-
-    stack.map((element) => completionArray.push(_closingCharMap.get(element)));
-
-    return completionArray;
-}
-
 function getScore(stack) {
     let score = 0;
 
