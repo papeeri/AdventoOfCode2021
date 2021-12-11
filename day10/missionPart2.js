@@ -2,56 +2,100 @@ import { getInputData } from "../lib/utils.js";
 
 const _inputPath = "./day10/input.txt";
 
+const _closingCharMap = new Map([
+    ["(", ")"],
+    ["[", "]"],
+    ["{", "}"],
+    ["<", ">"],
+]);
+
+const _pointsMap = new Map([
+    [")", 1],
+    ["]", 2],
+    ["}", 3],
+    [">", 4],
+]);
+
 function parser(inputData) {
     return inputData.split(/\r?\n/);
 }
 
-function mission() {
-    let input = getInputData(_inputPath)(parser);
+function isCorrupted(inputRow) {
+    let inputRowArray = inputRow.split("");
+    let stack = [];
 
-    const points = new Map([
-        [")", 3],
-        ["]", 57],
-        ["}", 1197],
-        [">", 25137],
-    ]);
+    for (let chr of inputRowArray) {
+        if (chr === "(" || chr === "[" || chr === "{" || chr === "<") {
+            stack.push(_closingCharMap.get(chr));
+        } else {
+            let element = stack.pop();
+            if (element !== chr) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
-    const closingCharMap = new Map([
-        ["(", ")"],
-        ["[", "]"],
-        ["{", "}"],
-        ["<", ">"],
-    ]);
-
-    let found = {
-        ")": 0,
-        "]": 0,
-        "}": 0,
-        ">": 0,
-    };
+function removeCorruptedDataRows(input) {
+    let incompleteRows = [];
 
     for (let inputRow of input) {
+        if (!isCorrupted(inputRow)) {
+            incompleteRows.push(inputRow);
+        }
+    }
+
+    return incompleteRows;
+}
+
+function getCompletionArray(stack) {
+    let completionArray = [];
+
+    stack.map((element) => completionArray.push(_closingCharMap.get(element)));
+
+    return completionArray;
+}
+
+function getScore(stack) {
+    let score = 0;
+
+    while (stack.length > 0) {
+        let element = stack.pop();
+        let closingElement = _closingCharMap.get(element);
+
+        score = score * 5;
+        score += _pointsMap.get(closingElement);
+    }
+
+    return score;
+}
+
+function mission() {
+    let input = getInputData(_inputPath)(parser);
+    let incompleteRows = removeCorruptedDataRows(input);
+
+    let scores = [];
+
+    for (let inputRow of incompleteRows) {
         let stack = [];
         let inputRowArray = inputRow.split("");
 
         for (let chr of inputRowArray) {
             if (chr === "(" || chr === "[" || chr === "{" || chr === "<") {
-                stack.push(closingCharMap.get(chr));
+                stack.push(chr);
             } else {
-                let element = stack.pop();
-                if (element !== chr) {
-                    found[chr]++;
-                }
+                stack.pop();
             }
         }
+
+        scores.push(getScore(stack));
     }
 
-    let sum = 0;
-    Object.keys(found).map((key) => {
-        sum += found[key] * points.get(key);
-    });
+    scores.sort((a, b) => a - b);
+    let middleScore = scores[Math.floor(scores.length / 2)];
 
-    console.log("Score:", sum);
+    console.log("Middle score:", middleScore);
 }
 
 mission();
