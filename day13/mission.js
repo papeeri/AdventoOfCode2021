@@ -62,7 +62,9 @@ function printMatrix(matrix) {
 }
 
 function foldUp(matrix, line) {
-    for (let row = 0; row < line; row++) {
+    let start = line - (matrix.length - 1 - line);
+
+    for (let row = start; row < line; row++) {
         let pop = matrix.pop();
 
         for (let col = 0; col < pop.length; col++) {
@@ -76,8 +78,10 @@ function foldUp(matrix, line) {
 }
 
 function foldLeft(matrix, column) {
+    let start = column - (matrix[0].length - 1 - column);
+
     for (let row = 0; row < matrix.length; row++) {
-        for (let col = 0; col < column; col++) {
+        for (let col = start; col < column; col++) {
             let pop = matrix[row].pop();
 
             if (pop === "#") {
@@ -103,7 +107,7 @@ function getDotCount(matrix) {
     return count;
 }
 
-function mission() {
+function missionPart1() {
     let input = getInputData(_inputPath)(parser);
 
     let matrix = getMatrix(input);
@@ -143,4 +147,27 @@ function mission() {
     */
 }
 
-mission();
+function missionPart2() {
+    let input = getInputData(_inputPath)(parser);
+
+    let matrix = getMatrix(input);
+
+    printMatrix(matrix);
+    console.log("\n");
+
+    for (let fold of input.folds) {
+        if (fold.axis === "y") {
+            foldUp(matrix, fold.value);
+        } else {
+            foldLeft(matrix, fold.value);
+        }
+
+        printMatrix(matrix);
+        console.log("\n");
+    }
+
+    let count = getDotCount(matrix);
+    console.log("Visible dots:", count);
+}
+
+missionPart2();
