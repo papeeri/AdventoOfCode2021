@@ -165,9 +165,6 @@ function missionPart2() {
         printMatrix(matrix);
         console.log("\n");
     }
-
-    let count = getDotCount(matrix);
-    console.log("Visible dots:", count);
 }
 
 missionPart2();
